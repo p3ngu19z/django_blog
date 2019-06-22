@@ -14,3 +14,7 @@ def index(request):
 
     return render(request, 'blog/index.html', context)
 
+
+def news(request, news_id):
+    news = News.objects.get(id=news_id)
+    return render(request, 'blog/news.html', {'news': news})
