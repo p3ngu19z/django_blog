@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.core.paginator import Paginator
-from .models import News
+from .models import News, Comment
+from django.utils.timezone import now
 
 
 def index(request):
@@ -17,4 +18,12 @@ def index(request):
 
 def news(request, news_id):
     news = News.objects.get(id=news_id)
-    return render(request, 'blog/news.html', {'news': news})
+    if request.method == 'POST':
+        comment = Comment(username=request.POST.get('username'),
+                          text=request.POST.get('text'),
+                          news=news,
+                          pub_date=now())
+        Comment.save(comment)
+    news_list = News.objects.order_by('-pub_date')[:9]
+    comments = Comment.objects.select_related().filter(news=news_id)
+    return render(request, 'blog/news.html', {'news': news, 'news_list': news_list, 'comments': comments})
