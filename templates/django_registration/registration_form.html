@@ -1,0 +1,45 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    {% block body_class %}
+        <body class="d-flex flex-column h-100">
+    {% endblock %}
+<main role="main" class="flex-shrink-0">
+    <div class="container mt-md-5 mb-md-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-12 m-3">
+                <form method="post" action="{% url 'django_registration_register' %}">
+                    {% csrf_token %}
+                    <p>{{ form.username.errors }}</p>
+                    <div class="form-group">
+                        <label for="InputUsername">Username</label>
+                        <input type="text" name="{{ form.username.html_name }}" class="form-control"
+                               id="InputUsername"
+                               placeholder="Enter Username">
+                    </div>
+                    <p>{{ form.email.errors }}</p>
+                    <div class="form-group">
+                        <label for="InputEmail">Email</label>
+                        <input type="email" name="{{ form.email.html_name }}" class="form-control"
+                               id="InputEmail"
+                               placeholder="Enter Email">
+                    </div>
+                    <p>{{ form.password1.errors }}</p>
+                    <div class="form-group">
+                        <label for="InputPassword1">Password</label>
+                        <input type="password" name="{{ form.password1.html_name }}" class="form-control"
+                               id="InputPassword1" placeholder="Enter Password">
+                    </div>
+                    <p>{{ form.password2.errors }}</p>
+                    <div class="form-group">
+                        <label for="InputPassword2">Retry Password</label>
+                        <input type="password" name="{{ form.password2.html_name }}" class="form-control"
+                               id="InputPassword2" placeholder="Retry Password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

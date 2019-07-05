@@ -1,32 +1,38 @@
 {% extends 'blog/base.html' %}
 {% block body_class %}
-<body class="homepage-v7 hidden-sn animated">
+    <body class="homepage-v7">
 {% endblock %}
 
 {% block content %}
     <!--Main layout-->
     <main class="pt-3">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-6">
+                    <!-- Intro -->
+                    <h1 class="text-center dark-grey-text pb-3 pt-3 font-weight-bold">
+                        <strong>SIMPLE BLOG</strong>
+                    </h1>
+                    <p class="grey-text text-center mb-4 text-uppercase spacing">Welcome on my blog</p>
 
-        <!-- Intro -->
-        <br>
-        <h1 class="text-center dark-grey-text pb-3 mt-5 pt-5 font-weight-bold">
-            <strong>SIMPLE BLOG</strong>
-        </h1>
-        <p class="grey-text text-center mb-4 text-uppercase spacing">Welcome on my blog</p>
+                    <!--Grid row-->
+                    <div class="flex-center page-content">
 
-        <!--Grid row-->
-        <div class="flex-center page-content">
-
-            <p class="grey-text text-center mb-5 mx-3">
-                <em>"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti
-                    atque corrupti quos dolores.Nemo enim ipsam voluptatem quia voluptas. Nemo enim ipsam voluptatem quia
-                    voluptas sit aspernatur."</em>
-            </p>
-
+                        <p class="grey-text text-center mb-5 mx-3">
+                            <em>"At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium
+                                voluptatum
+                                deleniti
+                                atque corrupti quos dolores.Nemo enim ipsam voluptatem quia voluptas. Nemo enim ipsam
+                                voluptatem
+                                quia
+                                voluptas sit aspernatur."</em>
+                        </p>
+                    </div>
+                    <!--Grid row-->
+                    <!--/Intro-->
+                </div>
+            </div>
         </div>
-        <!--Grid row-->
-
-        <!--/Intro-->
 
         <!--Blog-->
         <section>
@@ -48,132 +54,96 @@
                                     {% if news_list %}
                                         {% for news in news_list %}
                                             <!--Grid row-->
-                                    <div class="row mb-5">
-                                        <!--Grid column-->
-                                        <div class="col-md-12 text-center">
+                                            <div class="row mb-5">
+                                                <!--Grid column-->
+                                                <div class="col-md-12 text-center">
 
-                                            <!--Image-->
-                                            <div class="view overlay z-depth-1 mb-3">
-                                                <img src="{{ news.image.url }}" class="img-fluid rounded mx-auto">
-                                                <a href="{% url 'news' news.id %}">
-                                                    <div class="mask rgba-white-slight"></div>
-                                                </a>
-                                            </div>
-
-                                            <!--Excerpt-->
-                                            <a href="" class="">
-                                                <span class="badge badge-danger mb-2">travel</span>
-                                            </a>
-
-                                            <h2 class="text-center font-weight-bold dark-grey-text my-4">
-                                                <strong>{{ news.headline }}</strong>
-                                            </h2>
-
-                                            <p class="dark-grey-text">
-                                                {{ news.content|truncatewords:50|safe }}
-                                            </p>
-
-                                            <div class="text-center pb-2">
-                                                <a class="btn btn-transparent btn-sm font-weight-bold btn-rounded dark-grey-text" href="{% url 'news' news.id %}">Read more</a>
-                                            </div>
-
-                                            <!--Post data-->
-                                            <div class="post-data mt-3 pt-3 grey-text">
-                                                <h6>
-                                                    <a href="#!" class="blue-text">{{ news.author }}</a> on {{ news.pub_date }}
-{#                                                    <a href="#!" class="dark-grey-text">#}
-{#                                                        <i class="far fa-comments pr-2 pl-3"></i>149</a>#}
-                                                </h6>
-
-                                                <ul class="list-unstyled list-inline circle-icons">
-                                                    <!--Facebook-->
-                                                    <li class="list-inline-item">
-                                                        <a class="fb-ic">
-                                                            <i class="fab fa-facebook-f"></i>
+                                                    <!--Image-->
+                                                    <div class="view overlay z-depth-1 mb-3">
+                                                        <img src="{{ news.image.url }}"
+                                                             class="img-fluid rounded mx-auto">
+                                                        <a href="{% url 'news' news.id %}">
+                                                            <div class="mask rgba-white-slight"></div>
                                                         </a>
-                                                    </li>
-                                                    <!--Twitter-->
-                                                    <li class="list-inline-item">
-                                                        <a class="tw-ic">
-                                                            <i class="fab fa-twitter"></i>
-                                                        </a>
-                                                    </li>
-                                                    <!--Google +-->
-                                                    <li class="list-inline-item">
-                                                        <a class="gplus-ic">
-                                                            <i class="fab fa-google-plus-g"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
+                                                    </div>
 
+                                                    <!--Excerpt-->
+                                                    <a href="" class="">
+                                                        <span class="badge badge-danger mb-2">{{ news.category }}</span>
+                                                    </a>
+
+                                                    <h2 class="text-center font-weight-bold dark-grey-text my-4">
+                                                        <strong>{{ news.headline }}</strong>
+                                                    </h2>
+
+                                                    <p class="dark-grey-text">
+                                                        {{ news.content|truncatewords:50|safe }}
+                                                    </p>
+
+                                                    <div class="text-center pb-2">
+                                                        <a class="btn btn-outline-primary"
+                                                           href="{% url 'news' news.id %}">Read more</a>
+                                                    </div>
+
+                                                    <!--Post data-->
+                                                    <div class="post-data mt-3 pt-3 grey-text">
+                                                        <h6>
+                                                            <a href="#!" class="blue-text">{{ news.author }}</a>
+                                                            on {{ news.pub_date }}
+                                                            <a href="#!" class="dark-grey-text">
+                                                                <i class="pr-2 pl-3"></i>Comments: {{ news.get_comments_count }}</a>
+                                                        </h6>
+                                                    </div>
+
+                                                </div>
+                                                <!--Grid column-->
                                             </div>
-
-                                        </div>
-                                        <!--Grid column-->
-                                    </div>
-                                    <!--Grid row-->
+                                            <!--Grid row-->
+                                            <hr class="hr-dark mb-5">
                                         {% endfor %}
                                     {% else %}
                                         <p>404</p>
                                     {% endif %}
 
 
-
                                 </section>
                                 <!--Section: Classic blog listing-->
 
-                                <!--Pagination dark grey-->
-                                <nav class="mb-5 pb-2">
-                                    <ul class="pagination pg-dark flex-center">
-                                        <!--Arrow left-->
-                                        {% if news_list.has_previous %}
-                                            <li class="page-item">
-                                            <a class="page-link" href="?page={{ news_list.1 }}" aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                                <span class="sr-only">Previous</span>
-                                            </a>
-                                            </li>
-                                        {% endif %}
+                                <!--Pagination-->
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item{% if not news_list.has_previous %} disabled {% endif %}">
+                                            <a class="page-link" href="?page=1">First</a>
+                                        </li>
 
                                         {% for page in news_list.paginator.page_range %}
 
                                             {% if news_list.number == page %}
-                                            <li class="page-item active">
-                                            <a class="page-link">{{ page }}</a>
-                                            </li>
+                                                <li class="page-item active">
+                                                    <a class="page-link">{{ page }}</a>
+                                                </li>
                                             {% elif page > news_list.number|add:'-3' and page < news_list.number|add:'3' %}
                                                 <li class="page-item">
-                                                <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+                                                    <a class="page-link" href="?page={{ page }}">{{ page }}</a>
                                                 </li>
                                             {% endif %}
 
                                         {% endfor %}
-
-                                        <!--Arrow right-->
-                                        {% if news_list.has_next %}
                                         <li class="page-item">
-                                            <a class="page-link" href="?page={{ news_list.paginator.num_pages }}" aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                                <span class="sr-only">Next</span>
-                                            </a>
+                                            <a class="page-link"
+                                               href="?page={{ news_list.paginator.num_pages }}">Last</a>
                                         </li>
-                                        {% endif %}
                                     </ul>
                                 </nav>
-                                <!--Pagination dark grey-->
-
+                                <!--Pagination-->
                             </div>
                             <!--Main listing-->
-
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </section>
         <!--/Blog-->
-
     </main>
     <!--Main layout-->
 
