@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-from .models import News, Comment
+from .models import News, Comment, UserProfile
 from django.utils.timezone import now
-from .forms import CommentForm
+from .forms import CommentForm, BioForm, AvatarForm
 from django.http import HttpResponse
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def index(request):
@@ -44,9 +45,54 @@ def blog(request, blog_id):
     return render(request, 'blog/post.html', context)
 
 
-def blogger(request, author_id):
-    pass
+def blogger(request, author_username):
+    try:
+        UserProfile.objects.get(user__username=author_username)
+    except ObjectDoesNotExist:
+        return redirect('index')
+
+    blogger_profile = UserProfile.objects.get(user__username=author_username)
+    context = {
+        'blogger': blogger_profile,
+    }
+    return render(request, 'blog/blogger.html', context)
 
 
 def bloggers(request):
     return render(request, 'blog/bloggers.html')
+
+
+def profile(request):
+    try:
+        UserProfile.objects.get(user=request.user)
+    except ObjectDoesNotExist:
+        new_profile = UserProfile(user=request.user)
+        new_profile.save()
+
+    if request.method == 'POST' and 'bio_form' in request.POST:
+
+        bio_form = BioForm(request.POST or None)
+
+        if bio_form.is_valid():
+            user_profile = UserProfile.objects.get(user=request.user)
+            user_profile.bio = bio_form.cleaned_data['bio']
+            user_profile.save()
+    else:
+        bio_form = BioForm()
+
+    if request.method == 'POST' and 'avatar_form' in request.POST:
+
+        avatar_form = AvatarForm(request.POST, request.FILES or None)
+
+        if avatar_form.is_valid():
+            user_profile = UserProfile.objects.get(user=request.user)
+            user_profile.avatar = avatar_form.cleaned_data['avatar']
+            user_profile.save()
+    else:
+        avatar_form = AvatarForm()
+
+    context = {
+        'bio_form': bio_form,
+        'avatar_form': avatar_form,
+    }
+    return render(request, 'blog/profile.html', context)

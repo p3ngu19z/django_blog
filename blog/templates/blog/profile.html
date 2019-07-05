@@ -1,0 +1,38 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    {% block body_class %}
+        <body class="d-flex flex-column h-100">
+    {% endblock %}
+<div class="container mt-md-5">
+    <div class="row">
+        <div class="col-3">
+            <img src="{{ user.userprofile.avatar.url }}" alt="profile avatar" class="img-thumbnail mb-3">
+            <form method="post" action="{% url 'profile' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <input type="file" name="{{ avatar_form.avatar.html_name }}" class="form-control-file" id="exampleFormControlFile1">
+                </div>
+                 <button type="submit" name="avatar_form" class="btn btn-outline-primary btn-block">Save</button>
+            </form>
+        </div>
+        <div class="col-9">
+            <h3>{{ user.username }}</h3>
+            <hr>
+            <form method="post" action="{% url 'profile' %}">
+                {% csrf_token %}
+                {{ bio_form.bio.errors }}
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Your biography:</label>
+                    <textarea type="text" name="{{ bio_form.bio.html_name }}" class="form-control"
+                              id="exampleFormControlTextarea1" maxlength=600
+                              rows="6" required>{{ user.userprofile.bio }}</textarea>
+                </div>
+                <div class="text-right">
+                    <button type="submit" name="bio_form" class="btn btn-outline-primary pull-right">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

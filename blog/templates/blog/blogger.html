@@ -1,0 +1,19 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    {% block body_class %}
+        <body class="d-flex flex-column h-100">
+    {% endblock %}
+<div class="container mt-md-5">
+    <div class="row">
+        <div class="col-3">
+            <img src="{{ blogger.avatar.url }}" alt="profile avatar" class="img-thumbnail" >
+        </div>
+        <div class="col-9">
+            <h3>{{ blogger.user.username }}</h3>
+            <hr>
+            <p>{{ blogger.bio }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

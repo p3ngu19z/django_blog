@@ -40,8 +40,10 @@
                 </form>
                 <ul class="nav navbar-nav navbar-right p-2 mr-n5">
                     {% if user.is_authenticated %}
-                        <li class="text-white ml-3 my-auto">User: {{ user.get_username }}</li>
-                        <li><a class="text-white btn btn-primary ml-3" href="{% url 'logout' %}?next={{ request.path }}">Logout</a></li>
+                        <li class="text-white ml-3 my-auto">User:<a
+                                href="{% url 'profile' %}"> {{ user.get_username }}</a></li>
+                        <li><a class="text-white btn btn-primary ml-3"
+                               href="{% url 'logout'  %}?next={% url 'index' %}">Logout</a></li>
                     {% else %}
                         <li><a class="btn btn-primary" href="{% url 'login' %}">Login</a></li>
                         <li class="my-auto text-white mx-2">or</li>

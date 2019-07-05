@@ -88,7 +88,7 @@
                                                     <!--Post data-->
                                                     <div class="post-data mt-3 pt-3 grey-text">
                                                         <h6>
-                                                            <a href="#!" class="blue-text">{{ news.author }}</a>
+                                                            <a href="{% url 'blogger' news.author %}" class="blue-text">{{ news.author }}</a>
                                                             on {{ news.pub_date }}
                                                             <a href="#!" class="dark-grey-text">
                                                                 <i class="pr-2 pl-3"></i>Comments: {{ news.get_comments_count }}</a>
