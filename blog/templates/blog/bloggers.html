@@ -4,6 +4,18 @@
     {% block body_class %}
         <body class="d-flex flex-column h-100">
     {% endblock %}
-
-    test
+<div class="container mt-md-5">
+    {% for blogger in bloggers_list %}
+        <div class="row my-5">
+            <div class="col-3 m-auto">
+                <img src="{{ blogger.avatar.url }}" alt="profile avatar" class="img-rounded w-50 mx-5 my-auto">
+            </div>
+            <div class="col-9">
+                <h3><a href="{% url 'blogger' blogger.user.username %}">{{ blogger.user.username }}</a></h3>
+                <hr>
+                <p>{{ blogger.bio }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}

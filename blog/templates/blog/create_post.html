@@ -1,0 +1,48 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    {% block body_class %}
+        <body class="d-flex flex-column h-100">
+    {% endblock %}
+
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-12">
+                {% if user.is_authenticated %}
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">HeadLine</label>
+                            <input type="text" name="{{ post_form.headline.html_name }}" class="form-control"
+                                   id="formGroupExampleInput" placeholder="Enter HeadLine"
+                                   required>
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Category</label>
+                            <input type="text" name="{{ post_form.category.html_name }}" class="form-control"
+                                   id="formGroupExampleInput" placeholder="Enter Category"
+                                   required>
+                        </div>
+                        {{ post_form.content }}
+                        <div class="form-group">
+                            <label for="exampleFormControlFile1">Image upload:</label>
+                            <input type="file" name="{{ post_form.image.html_name }}" class="form-control-file"
+                                   id="exampleFormControlFile1" required>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-outline-primary">Save</button>
+                        </div>
+
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block custom_scripts %}
+    {% load static %}
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+{% endblock %}

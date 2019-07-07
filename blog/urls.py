@@ -8,5 +8,5 @@ urlpatterns = [
     path('blog/blogger/<str:author_username>/', views.blogger, name='blogger'),
     path('blog/profile/', views.profile, name='profile'),
     path('blog/bloggers/', views.bloggers, name='bloggers'),
-    # path('blog/<int:blog-id>/create/'),
+    path('blog/create/', views.create_post, name='create_post'),
 ]

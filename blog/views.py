@@ -1,14 +1,19 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
-from .models import News, Comment, UserProfile
+from django.db.models import Q
+from .models import *
 from django.utils.timezone import now
-from .forms import CommentForm, BioForm, AvatarForm
-from django.http import HttpResponse
+from .forms import *
 from django.core.exceptions import ObjectDoesNotExist
 
 
 def index(request):
-    news_list = News.objects.all()[::-1]
+    if request.GET.get('search'):
+        search = request.GET.get('search')
+        news_list = News.objects.filter(
+            Q(content__icontains=search) | Q(author__username__contains=search) | Q(headline__icontains=search))[::-1]
+    else:
+        news_list = News.objects.all()[::-1]
     paginator = Paginator(news_list, 3)
     page = request.GET.get('page')
     news = paginator.get_page(page)
@@ -26,14 +31,11 @@ def blog(request, blog_id):
         comment_form = CommentForm(request.POST)
 
         if comment_form.is_valid():
-            comment = Comment(username=comment_form.cleaned_data['username'],
+            comment = Comment(user=request.user,
                               text=comment_form.cleaned_data['text'],
                               news=news,
-                              email=comment_form.cleaned_data['email'],
                               pub_date=now())
             Comment.save(comment)
-
-            return HttpResponse("Спасибо за комментарий")
     else:
         comment_form = CommentForm()
     news_list = News.objects.order_by('-pub_date')[:9]
@@ -42,7 +44,7 @@ def blog(request, blog_id):
                'news_list': news_list,
                'comments': comments,
                'comment_form': comment_form}
-    return render(request, 'blog/post.html', context)
+    return render(request, 'blog/news.html', context)
 
 
 def blogger(request, author_username):
@@ -52,14 +54,20 @@ def blogger(request, author_username):
         return redirect('index')
 
     blogger_profile = UserProfile.objects.get(user__username=author_username)
+    post_list = News.objects.filter(author=blogger_profile.user)
     context = {
         'blogger': blogger_profile,
+        'post_list': post_list,
     }
     return render(request, 'blog/blogger.html', context)
 
 
 def bloggers(request):
-    return render(request, 'blog/bloggers.html')
+    bloggers_list = UserProfile.objects.all()
+    context = {
+        'bloggers_list': bloggers_list
+    }
+    return render(request, 'blog/bloggers.html', context)
 
 
 def profile(request):
@@ -96,3 +104,26 @@ def profile(request):
         'avatar_form': avatar_form,
     }
     return render(request, 'blog/profile.html', context)
+
+
+def create_post(request):
+    if request.method == 'POST':
+
+        post_form = PostForm(request.POST, request.FILES)
+
+        if post_form.is_valid():
+            post = News(author=request.user,
+                        content=post_form.cleaned_data['content'],
+                        headline=post_form.cleaned_data['headline'],
+                        image=post_form.cleaned_data['image'],
+                        category=post_form.cleaned_data['category'],
+                        pub_date=now())
+            News.save(post)
+
+            return redirect('index')
+    else:
+        post_form = PostForm()
+    content = {
+        'post_form': post_form,
+    }
+    return render(request, 'blog/create_post.html', content)

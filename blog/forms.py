@@ -1,10 +1,9 @@
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django import forms
 
 
 class CommentForm(forms.Form):
-    username = forms.CharField(max_length=200)
     text = forms.CharField(widget=forms.Textarea)
-    email = forms.EmailField()
 
 
 class BioForm(forms.Form):
@@ -13,3 +12,10 @@ class BioForm(forms.Form):
 
 class AvatarForm(forms.Form):
     avatar = forms.ImageField()
+
+
+class PostForm(forms.Form):
+    headline = forms.CharField(max_length=300)
+    category = forms.CharField(max_length=50)
+    content = forms.CharField(widget=CKEditorUploadingWidget())
+    image = forms.ImageField()

@@ -13,6 +13,14 @@
             <h3>{{ blogger.user.username }}</h3>
             <hr>
             <p>{{ blogger.bio }}</p>
+            <hr class="m-4">
+        <h3>User posts:</h3>
+        <div class="ml-5">
+            {% for post in post_list %}
+                <h5><a href="{% url 'news' post.id %}">{{ post.headline }}</a> - {{ post.pub_date.date }}</h5>
+            {% endfor %}
+        </div>
+
         </div>
     </div>
 </div>
